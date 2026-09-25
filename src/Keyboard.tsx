@@ -27,30 +27,53 @@ const KEYS = [
   "z",
 ];
 
-export function Keyboard() {
+type KeyboardProps = {
+  disabled: boolean;
+  activeLetters: string[];
+  inactiveLetters: string[];
+  addGuessedLetter: (letter: string) => void;
+};
+
+export function Keyboard({
+  disabled,
+  activeLetters,
+  inactiveLetters,
+  addGuessedLetter,
+}: KeyboardProps) {
   return (
-    <div className="grid grid-cols-[repeat(auto-fit,minmax(75px,1fr))] gap-2">
-      {KEYS.map((letter, index) => (
-        <button
-          key={index}
-          className="
-            w-full
-            aspect-square
-            border-[3px] border-black
-            bg-transparent
-            p-2
-            text-4xl
-            font-bold
-            uppercase
-            text-black
-            hover:bg-[hsl(200,100%,75%)]
-            focus:bg-[hsl(200,100%,75%)]
-            disabled:opacity-30
-          "
-        >
-          {letter}
-        </button>
-      ))}
+    <div className="grid grid-cols-[repeat(auto-fit,minmax(55px,1fr))] gap-2">
+      {KEYS.map((letter, index) => {
+        const isActive = activeLetters.includes(letter);
+        const isInActive = inactiveLetters.includes(letter);
+
+        return (
+          <button
+            key={index}
+            onClick={() => addGuessedLetter(letter)}
+            disabled={isInActive || isActive || disabled}
+            className={`
+  aspect-square
+  w-full
+  border-2 border-black
+  p-1
+  text-3xl
+  font-bold
+  uppercase
+  ${
+    disabled
+      ? "bg-transparent text-black opacity-30 hover:bg-transparent"
+      : isActive
+        ? "bg-[hsl(200,100%,50%)] text-white"
+        : isInActive
+          ? "bg-transparent text-black opacity-30"
+          : "bg-transparent text-black hover:bg-[hsl(200,100%,75%)] focus:bg-[hsl(200,100%,75%)]"
+  }
+`}
+          >
+            {letter}
+          </button>
+        );
+      })}
     </div>
   );
 }
