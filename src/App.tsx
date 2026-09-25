@@ -2,6 +2,7 @@ import { useState } from "react";
 import words from "./wordList.json";
 import { HangmanDrawing } from "./HangmanDrawing";
 import { HangmanWord } from "./HangmanWord";
+import { Keyboard } from "./Keyboard";
 
 function App() {
   const [wordToGuess] = useState(() => {
@@ -14,6 +15,9 @@ function App() {
       <div className="text-center text-4xl">Lose Win</div>
       <HangmanDrawing />
       <HangmanWord />
+      <div className="self-stretch">
+        <Keyboard />
+      </div>
     </div>
   );
 }
